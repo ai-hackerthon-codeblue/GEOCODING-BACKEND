@@ -30,7 +30,6 @@ try:
     if not GEMINI_API_KEY:
         raise ValueError("GEMINI_API_KEY 환경 변수가 설정되지 않았습니다.")
 
-    # genai.configure(api_key=GEMINI_API_KEY)
     client = genai.Client(api_key=GEMINI_API_KEY)
     print("Gemini API 클라이언트 초기화 완료.")
 except Exception as e:

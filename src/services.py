@@ -20,7 +20,7 @@ def create_analysis_prompt(path1_data: str, path2_data: str) -> str:
 경로 좌표는 위도(latitude)와 경도(longitude) 쌍의 리스트로 제공됩니다.
 
 ### 요구 사항
-1.  **결과는 반드시 아래의 JSON 형식으로만 응답**하십시오.
+1.  **결과는 반드시 아래의 JSON 형식으로만 응답**하십시오. 다른 텍스트나 설명 없이 JSON 객체만 반환해야 합니다.
 2.  `error_rate`는 오차율 (float, 소수점 둘째 자리까지) 입니다.
 3.  `analysis_summary`는 주요 오차 발생 지점 또는 전반적인 수행 능력에 대한 **한국어 요약**입니다.
 
@@ -49,13 +49,12 @@ def analyze_path_similarity(path1_data_str: str, path2_data_str: str) -> dict:
         
         response = client.models.generate_content(
             model=GEMINI_MODEL,
-            contents=prompt,
-            generation_config=types.GenerationConfig(
-                response_mime_type="application/json"  # JSON 형식 강제
-            )
+            contents=prompt
         )
-        
         analysis_json_str = response.text.strip()
+        # 응답이 Markdown 코드 블록으로 감싸져 오는 경우, 순수 JSON만 추출
+        if analysis_json_str.startswith("```json"):
+            analysis_json_str = analysis_json_str[7:-3].strip()
         return json.loads(analysis_json_str)
 
     except Exception as e:
