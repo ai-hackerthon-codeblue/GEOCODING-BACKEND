@@ -1,5 +1,3 @@
-# src/routes.py
-
 import json
 from flask import Blueprint, request, jsonify
 from firebase_admin import db
@@ -17,6 +15,7 @@ def save_training_and_analyze():
     4. 분석 결과를 Firebase에 업데이트합니다.
     """
     data = request.get_json()
+    print("Received data from frontend:", data)
 
     required_fields = ['time_taken_seconds', 'path_to_destination', 'path_back_to_start']
     if not all(field in data for field in required_fields):
