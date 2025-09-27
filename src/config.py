@@ -38,4 +38,4 @@ except Exception as e:
     client = None # API 키가 없어도 앱이 실행되도록 None으로 설정
 
 # --- Gemini 분석 프롬프트 및 설정 ---
-GEMINI_MODEL = 'gemini-1.5-flash'
+GEMINI_MODEL = 'gemini-2.5-pro'
